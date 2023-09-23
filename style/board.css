@@ -1,0 +1,11 @@
+td {
+	width: 30px;
+	height: 30px;
+}
+.black_square {
+	background-color: black;
+}
+
+.white_square {
+	background-color: gray;
+}
