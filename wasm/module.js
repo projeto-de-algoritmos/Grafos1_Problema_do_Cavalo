@@ -16,8 +16,12 @@ WebAssembly.instantiateStreaming(fetch("./wasm/a.out.wasm"), {
 	memory = obj.instance.exports.memory;
 })
 
-function knight_tour() {
-	let ptr = module.dfs(0, 0);
+function knight_tour(n) {
+
+	const x = n/8;
+	const y = n%8;
+
+	let ptr = module.dfs(x, y);
 	let arr = new Uint8Array(memory.buffer, ptr);
 	console.log(arr.slice(0, 64));
 	module.wfree(ptr);
