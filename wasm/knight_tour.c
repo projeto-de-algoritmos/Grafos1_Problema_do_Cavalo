@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include <emscripten.h>
+#include <stdio.h>
+//#include <emscripten.h>
 
 typedef struct
 {
@@ -12,65 +13,121 @@ typedef struct
 	int x[8][8];
 } Board;
 
-Board board;
-int w = 0;
-
-coor * gen_knight_moves(coor N)
+typedef struct
 {
-	coor off_sets[8] = {{-1, -2}, {-1, 2}, {-2, -1}, {-2, 1},
-							{1, -2}, {1, 2}, {2, -1}, {2,1}};
+	coor moves[8];
+	int i;
+} stack;
 
-	coor *moves = malloc(sizeof(coor) * 8);
 
-	for (int i = 0; i < 8; i++)
-	{
-		coor aux = {N.x + off_sets[i].x, N.y + off_sets[i].y};
-		moves[i] = aux;
-	}
-
-	return moves;
+coor pop(stack *s)
+{
+	s->i--;
+	return s->moves[s->i];
 }
+
+void push(coor c, stack *s)
+{
+	s->moves[s->i] = c;
+	s->i++;
+}
+
+Board board;
 
 int is_valid_move(coor N)
 {
 	return N.x >= 0 && N.x < 8 && N.y >= 0 && N.y < 8;
 }
 
-void dfs_visited(coor N, Board visited, int count, char * res)
+int was_visited(coor N, Board v)
 {
-	if (visited.x[N.x][N.y]) return;
+	return v.x[N.x][N.y];
+}
 
-	visited.x[N.x][N.y] = 1;
+stack * gen_knight_moves(coor N, Board visited)
+{
+	coor off_sets[8] = {{-1, -2}, {-1, 2}, {-2, -1}, {-2, 1},
+							{1, -2}, {1, 2}, {2, -1}, {2,1}};
 
-	res[count++] = board.x[N.x][N.y];
-
-	if (count == 64)
-	{
-		w = 1;
-		return;
-	}
-	coor *moves = gen_knight_moves(N);
+	stack *moves = malloc(sizeof(stack));
+	moves->i = 0;
 
 	for (int i = 0; i < 8; i++)
 	{
-		if (is_valid_move(moves[i]))
-			dfs_visited(moves[i], visited, count, res);	
-
-		if(w) break;
+		coor aux = {N.x + off_sets[i].x, N.y + off_sets[i].y};
+		if(is_valid_move(aux) && !was_visited(aux, visited)) push(aux, moves);
 	}
 
-	free(moves);
+	return moves;
 }
 
-EMSCRIPTEN_KEEPALIVE
+int count_valid(coor N, Board visited)
+{
+	stack *s = gen_knight_moves(N, visited);
+	int c = s->i;	
+	free(s);
+	return c;
+}
+
+void order(stack *s, Board visited)
+{
+	for(int i=0; i<s->i; i++)
+	{
+		for(int j=i+1; j<s->i; j++)
+		{
+			int x = count_valid(s->moves[i], visited);
+			int y = count_valid(s->moves[j], visited);
+
+			if(x < y)
+			{
+				coor tmp = s->moves[i];
+				s->moves[i] = s->moves[j];
+				s->moves[j] = tmp;
+			}
+		}
+	}
+}
+
+int dfs_visited(coor N, Board visited, int count, char * res)
+{
+	if (was_visited(N, visited)) return 0;
+
+	visited.x[N.x][N.y] = 1;
+
+	res[count] = board.x[N.x][N.y];
+	count++;
+
+
+	if (count == 64)
+	{
+		return 1;
+	}
+
+	stack *m = gen_knight_moves(N, visited);
+	order(m, visited);
+
+	int done = 0;
+
+	while(m->i > 0)
+	{
+		done = dfs_visited(pop(m), visited, count, res);	
+
+		if(done) return 1;
+	}
+	free(m);
+	return 0;
+}
+
+//EMSCRIPTEN_KEEPALIVE
 char * dfs(int x, int y)
 {
-	int c = 1;
+	int c = 0;
 	for (int i = 0; i < 8; i++){
 		for (int j = 0; j < 8; j++){
 			board.x[i][j] = c++;
 		}
 	}
+
 	coor N = {x, y};
 	Board visited;
 	for(int i = 0; i < 8; i++)
@@ -82,10 +139,33 @@ char * dfs(int x, int y)
 	return res;
 }
 
-EMSCRIPTEN_KEEPALIVE
+//EMSCRIPTEN_KEEPALIVE
 void wfree(void *ptr)
 {
 	free(ptr);
 }
 
-int main() { return 0; }
+//int is_valid(char *arr) {
+//	int c[64] = {0};
+//	for(int i= 0; i<64; i++){
+//		if(c[i]) return 0;
+//		c[i]++;
+//	}
+//	return 1;
+//}
+
+int main() { 
+	
+	
+	for(int i= 0; i<5; i++)
+	{
+		int x = i/8;
+		int y = i%8;
+		char *arr = dfs(x, y);
+		for(int i= 0; i<64; i++)
+			printf("%d ", arr[i]);	
+		printf("\n");
+		free(arr);
+	}
+	return 0;
+}

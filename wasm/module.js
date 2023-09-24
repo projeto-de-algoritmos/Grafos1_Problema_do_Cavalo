@@ -1,14 +1,14 @@
 let module;
 
 let memory = new WebAssembly.Memory({
-	initial: 10,
-	maximum: 100
+	initial: 256,
+	maximum: 256
 });
 
 WebAssembly.instantiateStreaming(fetch("./wasm/a.out.wasm"), {
 	env: {
 		emscripten_memcpy_big: memory.grow,
-		emscripten_resize_heap: memory.grow
+		emscripten_resize_heap: memory.grow,
 	}
 })
 .then(obj => {
@@ -23,6 +23,7 @@ function knight_tour(n) {
 
 	let ptr = module.dfs(x, y);
 	let arr = new Uint8Array(memory.buffer, ptr);
-	console.log(arr.slice(0, 64));
+	arr = arr.slice(0, 64);
 	module.wfree(ptr);
+	return arr;
 }
