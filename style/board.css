@@ -1,12 +1,31 @@
 td {
-	width: 30px;
-	height: 30px;
-	color: white;
+  width: 50px;
+  height: 50px;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 24px;
+  font-weight: bold;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s;
 }
-.black_square {
-	background-color: black;
+
+td:hover {
+  cursor: pointer;
+  transform: translateY(-4px);
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .white_square {
-	background-color: gray;
+  background-color: #f9debe;
+}
+
+.black_square {
+  background-color: #bb8e57;
+}
+
+.board {
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4);
 }
