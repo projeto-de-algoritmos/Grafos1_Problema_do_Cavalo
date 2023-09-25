@@ -9,7 +9,7 @@ WebAssembly.instantiateStreaming(fetch("./wasm/a.out.wasm"), {
 	env: {
 		emscripten_memcpy_big: memory.grow,
 		emscripten_resize_heap: memory.grow,
-		emscripten_memcpy_js: memory.grow
+		emscripten_memcpy_js: memory.grow,
 	}
 })
 .then(obj => {

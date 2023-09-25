@@ -1,6 +1,5 @@
 #include <stdlib.h>
-#include <stdio.h>
-//#include <emscripten.h>
+#include <emscripten.h>
 
 typedef struct
 {
@@ -118,7 +117,7 @@ int dfs_visited(coor N, Board visited, int count, char * res)
 	return 0;
 }
 
-//EMSCRIPTEN_KEEPALIVE
+EMSCRIPTEN_KEEPALIVE
 char * dfs(int x, int y)
 {
 	int c = 0;
@@ -139,7 +138,7 @@ char * dfs(int x, int y)
 	return res;
 }
 
-//EMSCRIPTEN_KEEPALIVE
+EMSCRIPTEN_KEEPALIVE
 void wfree(void *ptr)
 {
 	free(ptr);
@@ -157,15 +156,15 @@ void wfree(void *ptr)
 int main() { 
 	
 	
-	for(int i= 0; i<5; i++)
-	{
-		int x = i/8;
-		int y = i%8;
-		char *arr = dfs(x, y);
-		for(int i= 0; i<64; i++)
-			printf("%d ", arr[i]);	
-		printf("\n");
-		free(arr);
-	}
+//	for(int i= 0; i<5; i++)
+//	{
+//		int x = i/8;
+//		int y = i%8;
+//		char *arr = dfs(x, y);
+//		for(int i= 0; i<64; i++)
+//			printf("%d ", arr[i]);	
+//		printf("\n");
+//		free(arr);
+//	}
 	return 0;
 }
