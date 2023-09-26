@@ -1,12 +1,70 @@
-td {
-	width: 30px;
-	height: 30px;
-	color: white;
+.container {
+  display: grid;
+  justify-items: center;
 }
-.black_square {
-	background-color: black;
+
+body {
+  background-color: #EEEEF0;
+}
+
+h1, h2 {
+  color: #603a0c;
+}
+
+td {
+  width: 60px;
+  height: 60px;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 24px;
+  font-weight: bold;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s;
+}
+
+td:hover {
+  cursor: pointer;
+  transform: translateY(-4px);
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .white_square {
-	background-color: gray;
+  background-color: #f9debe;
+  color: #603a0c;
+}
+
+.black_square {
+  background-color: #bb8e57;
+
+}
+
+.board {
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+table {
+  border: #603a0c solid 8px;
+}
+
+.button {
+  width: 120px;
+  height: 45px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 10px 10px 10px;
+  border-radius: 5px;
+  color: white;
+  border: 2px solid #BB8E57;
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4);
+  background-color: #BB8E57;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #9c6f37;
+  border: 2px solid #9c6f37;
+  transition: 0.5s;
 }
