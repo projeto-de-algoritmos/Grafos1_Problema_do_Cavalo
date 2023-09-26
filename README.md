@@ -24,11 +24,10 @@ para acessar.
 
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
 
-![](assets/)
-![](assets/)
-![](assets/)
+<img width="300" height="300" src="assets/tela-1.PNG" />
+<img width="300" height="300" src="assets/tela-2.PNG" />
+<img width="300" height="300" src="assets/tela-2.PNG" />
 
 ## Instalação 
 - **Linguagens**: C, Javascript
