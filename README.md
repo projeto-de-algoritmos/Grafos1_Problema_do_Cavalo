@@ -29,6 +29,8 @@ para acessar.
 <img width="300" height="300" src="assets/tela-2.PNG" />
 <img width="300" height="300" src="assets/tela-2.PNG" />
 
+[Link do video](https://youtu.be/h07k2zn3rBs)
+
 ## Instalação 
 - **Linguagens**: C, Javascript
 
